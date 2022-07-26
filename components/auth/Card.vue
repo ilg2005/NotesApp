@@ -1,6 +1,7 @@
 <template>
-  <v-card class="px-12 pb-12 ma-auto w-50">
-    <v-card-title class="text-h4 mb-5">Login</v-card-title>
+
+  <v-card class="px-12 pb-12 ma-auto w-33">
+    <v-card-title class="text-h4 mb-5">{{ authState }}</v-card-title>
     <v-form
         ref="form"
         v-model="valid"
@@ -31,14 +32,29 @@
           class="mr-4"
           @click="validate"
       >
-        Login
+        Submit
       </v-btn>
+      <p @click="toggleAuthState"
+         class="msg"
+      >
+        {{ message[authState] }}
+      </p>
 
     </v-form>
   </v-card>
+
 </template>
 
 <script setup>
+
+const authState = ref('login');
+
+const message = {
+  login: "Don't have an account? Create one now",
+  signup: "Already have an account? Log in now",
+};
+
+const toggleAuthState = () => authState.value = authState.value === 'login' ? 'signup' : 'login';
 
 const fields = reactive({
   email: '',
@@ -63,5 +79,13 @@ const validate = () => form.value.validate();
 </script>
 
 <style scoped>
+.msg {
+  margin-top: 2rem;
+  cursor: pointer;
+  color: blue;
+}
 
+.text-h4 {
+  text-transform: capitalize !important;
+}
 </style>
